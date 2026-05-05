@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海洋化学 · 拓展知识外脑</title>
+<style>
+  :root {
+    --bg: #0a1628;
+    --bg2: #0f1f38;
+    --card: #132744;
+    --card-hover: #1a3358;
+    --border: #1e3a5f;
+    --text: #c8d6e5;
+    --text2: #8395a7;
+    --accent: #00b4d8;
+    --accent2: #48cae4;
+    --accent3: #90e0ef;
+    --warm: #f4a261;
+    --warm2: #e9c46a;
+    --danger: #e76f51;
+    --green: #2a9d8f;
+    --purple: #7b68ee;
+    --sidebar-w: 280px;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+
+  .sidebar-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(0,180,216,0.1), rgba(72,202,228,0.05));
+  }
+  .sidebar-header h1 {
+    font-size: 1.25rem;
+    color: var(--accent2);
+    letter-spacing: 0.5px;
+  }
+  .sidebar-header .subtitle {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  .sidebar-search {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-search input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .sidebar-search input:focus {
+    border-color: var(--accent);
+  }
+  .sidebar-search input::placeholder {
+    color: var(--text2);
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 8px 0;
+    overflow-y: auto;
+  }
+  .nav-category {
+    border-bottom: 1px solid rgba(30,58,95,0.4);
+  }
+  .nav-cat-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .nav-cat-header:hover { background: rgba(0,180,216,0.08); }
+  .nav-cat-header .icon { margin-right: 10px; font-size: 1rem; width: 20px; text-align: center; }
+  .nav-cat-header .arrow {
+    margin-left: auto;
+    font-size: 0.6rem;
+    color: var(--text2);
+    transition: transform 0.25s;
+  }
+  .nav-category.open .nav-cat-header .arrow { transform: rotate(90deg); }
+  .nav-cat-header .count {
+    font-size: 0.7rem;
+    color: var(--text2);
+    margin-left: 6px;
+    font-weight: 400;
+  }
+
+  .nav-items {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .nav-category.open .nav-items { max-height: 600px; }
+  .nav-item {
+    display: block;
+    padding: 8px 20px 8px 50px;
+    font-size: 0.825rem;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+  .nav-item:hover {
+    color: var(--accent2);
+    background: rgba(0,180,216,0.05);
+  }
+  .nav-item.active {
+    color: var(--accent2);
+    border-left-color: var(--accent);
+    background: rgba(0,180,216,0.08);
+  }
+
+  /* ===== MAIN ===== */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 32px 40px;
+    max-width: calc(100% - var(--sidebar-w));
+    min-height: 100vh;
+  }
+
+  .main-header {
+    margin-bottom: 32px;
+  }
+  .breadcrumb {
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .breadcrumb span { color: var(--accent2); }
+  .main-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent3), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .main-header p {
+    color: var(--text2);
+    margin-top: 4px;
+    font-size: 0.95rem;
+  }
+
+  /* ===== SEARCH RESULTS ===== */
+  .search-info {
+    display: none;
+    padding: 8px 14px;
+    background: rgba(0,180,216,0.1);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.875rem;
+    color: var(--accent2);
+  }
+  .search-info.visible { display: block; }
+
+  /* ===== CARDS ===== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    transition: all 0.25s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    background: var(--card-hover);
+    border-color: rgba(0,180,216,0.3);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    border-radius: 4px 0 0 4px;
+  }
+  .card .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .card .card-tags {
+    margin-top: 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .card .tag {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    background: rgba(0,180,216,0.08);
+  }
+
+  /* ===== DETAIL SECTION ===== */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header .sec-icon {
+    font-size: 1.6rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,180,216,0.1);
+  }
+  .section-header h2 {
+    font-size: 1.4rem;
+    color: var(--text);
+  }
+
+  .detail-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .detail-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+    gap: 10px;
+  }
+  .detail-header:hover { background: rgba(0,180,216,0.04); }
+  .detail-header .expand-icon {
+    color: var(--accent);
+    font-size: 0.7rem;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .detail-card.open .detail-header .expand-icon { transform: rotate(90deg); }
+  .detail-header h4 {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .detail-header .badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(0,180,216,0.12);
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+
+  .detail-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    border-top: 0px solid var(--border);
+  }
+  .detail-card.open .detail-body {
+    max-height: 2000px;
+    border-top-width: 1px;
+  }
+  .detail-body-inner {
+    padding: 18px 20px 18px 36px;
+    font-size: 0.875rem;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+  .detail-body-inner ul {
+    padding-left: 18px;
+  }
+  .detail-body-inner ul li {
+    margin-bottom: 6px;
+    list-style-type: disc;
+    color: #7d8fa0;
+  }
+  .detail-body-inner strong {
+    color: var(--text);
+  }
+  .detail-body-inner .highlight-box {
+    background: rgba(0,180,216,0.06);
+    border: 1px solid rgba(0,180,216,0.15);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+  }
+  .detail-body-inner .formula {
+    display: block;
+    padding: 8px 16px;
+    margin: 8px 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: var(--accent2);
+    text-align: center;
+  }
+  .detail-body-inner .key-value {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .detail-body-inner .key-value .key {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.825rem;
+  }
+  .compare-table th {
+    background: rgba(0,180,216,0.1);
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--accent2);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(30,58,95,0.4);
+  }
+  .compare-table tr:hover td {
+    background: rgba(0,180,216,0.03);
+  }
+
+  /* ===== CONCEPT MAP ===== */
+  .concept-map {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    padding: 16px 0;
+  }
+  .concept-node {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .concept-node:hover {
+    border-color: var(--accent);
+    background: var(--card-hover);
+    box-shadow: 0 0 12px rgba(0,180,216,0.15);
+  }
+  .concept-node.central {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px 22px;
+    background: linear-gradient(135deg, rgba(0,180,216,0.2), rgba(72,202,228,0.08));
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ===== MOBILE TOGGLE ===== */
+  .mobile-toggle {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1.3rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===== BACK TO TOP ===== */
+  .back-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    opacity: 0.7;
+  }
+  .back-top:hover { opacity: 1; background: var(--card-hover); }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a5080; }
+
+  /* ===== HIGHLIGHT SEARCH ===== */
+  mark {
+    background: rgba(244,162,97,0.35);
+    color: var(--warm2);
+    padding: 1px 2px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .mobile-toggle {
+      display: flex;
+    }
+    .main {
+      margin-left: 0;
+      max-width: 100%;
+      padding: 20px 16px;
+    }
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile Toggle -->
+<button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>🌊 海洋化学知识外脑</h1>
+    <div class="subtitle">Marine Chemistry Knowledge Base</div>
+  </div>
+
+  <div class="sidebar-search">
+    <input type="text" id="searchInput" placeholder="🔍 搜索知识点..." oninput="handleSearch()">
+  </div>
+
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- Dynamically populated -->
+  </nav>
+
+  <div style="padding: 12px 20px; font-size: 0.7rem; color: var(--text2); border-top: 1px solid var(--border);">
+    基于江宗培老师《海洋化学》课程<br>浙江大学 · 海洋科学基础
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="main" id="mainContent">
+  <div class="main-header">
+    <div class="breadcrumb">拓展知识外脑 / <span>海洋化学</span></div>
+    <h2>海洋化学知识体系</h2>
+    <p>点击左侧分类浏览，或使用搜索查找知识点。点击卡片可展开详细内容。</p>
+  </div>
+
+  <div class="search-info" id="searchInfo"></div>
+
+  <!-- Concept Map Overview -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-icon">🧭</div>
+      <h2>知识全景 · 概念地图</h2>
+    </div>
+    <div class="concept-map">
+      <span class="concept-node central">海洋化学</span>
+      <span class="concept-node">物质循环</span>
+      <span class="concept-node">海-气交换</span>
+      <span class="concept-node">海-陆界面</span>
+      <span class="concept-node">生物地球化学</span>
+      <span class="concept-node">碳泵</span>
+      <span class="concept-node">Redfield Ratio</span>
+      <span class="concept-node">热盐环流</span>
+      <span class="concept-node">溶解氧</span>
+      <span class="concept-node">箱式模型</span>
+      <span class="concept-node">停留时间</span>
+    </div>
+  </div>
+
+  <!-- Content Sections -->
+  <div id="contentSections"></div>
+</main>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+
+<script>
+// ===== KNOWLEDGE DATA =====
+const knowledgeData = [
+  {
+    id: 'intro',
+    icon: '📖',
+    title: '海洋化学导论',
+    tags: ['概述', '学科定位', '发展史'],
+    summary: '海洋化学是研究海洋中化学物质及其反应的学科，是物理海洋学、海洋化学、海洋生物、海洋地质四大支柱之一。',
+    subsections: [
+      {
+        id: 'history',
+        title: '海洋化学发展历程',
+        badge: '时间线',
+        content: `
+          <ul>
+            <li><strong>1873-1876：</strong>"挑战者"号环球海洋考察 —— 海洋化学的起点。英国皇家海军挑战者号进行了首次全球海洋科学考察，收集了大量海水样本。</li>
+            <li><strong>1920s~1950s：</strong>海洋营养盐的调查与研究，<strong>Redfield Ratio</strong>（Redfield比值 C:N:P = 106:16:1）的提出，揭示了海洋生物与化学组成之间的计量关系。</li>
+            <li><strong>1950s-1960s：</strong>海水分析化学迅速发展，海洋调查规范的编制。分析方法标准化使得全球海洋数据可以比较。</li>
+            <li><strong>1960s-1970s：</strong>海洋物理化学发展——研究海洋中的沉淀-溶解作用、氧化-还原作用、酸-碱作用、络合平衡作用等；提出<strong>稳态原理</strong>和<strong>箱式模型</strong>。</li>
+            <li><strong>1990s以后：</strong>新技术不断涌现，大型国际合作计划推进，关注海洋对全球变化的响应与反馈。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'marine-vs-chemical',
+        title: '海洋化学 vs 化学海洋学',
+        badge: '概念辨析',
+        content: `
+          <div class="compare-table" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 8px 0;">
+            <div style="background:rgba(0,180,216,0.05); padding:14px; border-radius:8px;">
+              <strong style="color:var(--accent2);">Marine Chemistry<br>海洋化学</strong>
+              <p style="margin-top:6px; font-size:0.825rem;">侧重研究海水中化学物质及其反应本身，是化学学科在海洋中的应用。</p>
+            </div>
+            <div style="background:rgba(244,162,97,0.05); padding:14px; border-radius:8px;">
+              <strong style="color:var(--warm);">Chemical Oceanography<br>化学海洋学</strong>
+              <p style="margin-top:6px; font-size:0.825rem;">将海洋化学作为工具，用于理解海洋学过程，是海洋学的一个分支。</p>
+            </div>
+          </div>
+          <p style="margin-top:8px;">简而言之：海洋化学研究"化学"，化学海洋学用"化学"来研究"海洋"。</p>
+        `
+      },
+      {
+        id: 'research-content',
+        title: '海洋化学研究内容',
+        badge: '核心',
+        content: `
+          <p><strong>四大关键词：</strong>含量 → 迁移 → 过程 → 通量</p>
+          <ol style="padding-left:18px; margin-top:8px;">
+            <li><strong>海洋环境中各种物质的含量、存在形式、化学组成及其迁移变化规律</strong></li>
+            <li><strong>控制海洋物质循环的各种过程与通量</strong>，特别是海-气、海-底、海-陆、海-生等界面的地球化学过程与通量</li>
+          </ol>
+        `
+      },
+      {
+        id: 'economic-role',
+        title: '海洋化学的社会经济作用',
+        badge: '应用',
+        content: `
+          <strong>海洋化学资源开发利用：</strong>
+          <ul>
+            <li><strong>海洋石油及其化工：</strong>海洋石油和天然气储量占世界油气总量的25%和20%，具有重要战略意义。</li>
+            <li><strong>海盐工业和海水综合利用：</strong>食盐、碳酸钠、氯化钾、氯化镁、金属镁、溴及其精细化工；海水淡化等。</li>
+            <li><strong>海洋矿物：</strong>多金属结核、结壳、热液硫化物等。</li>
+          </ul>
+          <strong style="display:block; margin-top:12px;">海洋环境和生态问题：</strong>
+          <ul>
+            <li><strong>化学污染：</strong>石油、重金属、有机物等</li>
+            <li><strong>气候变化：</strong>海洋对温室气体的吸收及其机理</li>
+            <li><strong>生态问题：</strong>海洋酸化、赤潮频发、生物种类灭绝</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    id: 'basics',
+    icon: '🌍',
+    title: '海洋基本特征',
+    tags: ['海水组成', '物理性质', '盐度'],
+    summary: '海洋是一个敞开的复杂体系，最大深度>10000m，压力变化1-1000 atm，与大气、陆地不断进行交换。',
+    subsections: [
+      {
+        id: 'sea-vs-ocean',
+        title: '海和洋的区别',
+        badge: '基础概念',
+        content: `
+          <table class="compare-table">
+            <tr><th>特征</th><th>开阔大洋 (Open Ocean)</th><th>边缘海 (Marginal Sea)</th></tr>
+            <tr><td>面积</td><td>很广（太平洋、大西洋、印度洋、北冰洋、南冰洋）</td><td>较小</td></tr>
+            <tr><td>盐度</td><td>大致稳定</td><td>受河水流入影响大，盐度常有变化</td></tr>
+            <tr><td>潮汐和海流</td><td>有自己独立的潮汐和海流系统</td><td>几乎没有独立系统，主要受所属大洋影响</td></tr>
+          </table>
+        `
+      },
+      {
+        id: 'ocean-formation',
+        title: '海洋的形成（~38亿年前）',
+        badge: '地球历史',
+        content: `
+          <ul>
+            <li><strong>地球的脱气作用：</strong>形成初期火山活动不断，岩浆喷发释放 CO₂、N₂、CH₄、H₂ 和 H₂O。</li>
+            <li><strong>海洋中水的两大来源：</strong>1）大气层水蒸气的冷却；2）带有冰的彗星不断降落到地球。</li>
+            <li><strong>原始海水：</strong>可视为由0.5 M HCl溶液与岩石接触，溶解Ca、Mg、K、Na、Fe、Al等元素，中和后Fe、Al等以氢氧化物沉淀。</li>
+            <li><strong>海水化学组成至少在几亿年内基本恒定：</strong>贝壳Sr/Ca比显示2~6亿年前海水主要元素与现代相近；寒武纪之前沉积物显示20亿年前海水主要化学组分浓度可能与现代相近。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'water-properties',
+        title: '液态水的特殊物理性质',
+        badge: '重要',
+        content: `
+          <table class="compare-table">
+            <tr><th>性质</th><th>特点</th><th>环境意义</th></tr>
+            <tr><td>热容量</td><td>除液态氨外最高</td><td>避免极端温度，输送大量热</td></tr>
+            <tr><td>汽化潜热</td><td>所有物质中最高</td><td>大气中热能及水之转移</td></tr>
+            <tr><td>表面张力</td><td>所有液体中最大</td><td>控制水滴形成与活动状态</td></tr>
+            <tr><td>溶解力</td><td>比其他液体更强更广</td><td>溶解更多种类和更大质量的物质</td></tr>
+            <tr><td>介电常数</td><td>所有液体中纯水最大</td><td>造成高游离度，利于无机溶解</td></tr>
+            <tr><td>热膨胀</td><td>纯水在4°C时密度最大</td><td>控制湖泊温度分布及垂直循环</td></tr>
+            <tr><td>透明度</td><td>非常大</td><td>吸收红外及紫外光，可见光透过</td></tr>
+            <tr><td>电解游离度</td><td>非常小</td><td>水为中性但仍含H⁺与OH⁻</td></tr>
+          </table>
+        `
+      },
+      {
+        id: 'water-density',
+        title: '水的密度与"冷胀热缩"',
+        badge: '物理',
+        content: `
+          <ul>
+            <li>0°C时水凝结成冰，全部水分子缔合在一起成为一个巨大的缔合水分子（放热过程）。</li>
+            <li><strong>0-4°C：</strong>水呈现"冷胀热缩"——这一反常现象是因为冰融化时氢键部分断裂，分子排列更紧密。</li>
+            <li><strong>生态意义：</strong>4°C水密度最大，沉于底部，使中纬度地区冬季水体不会完全冻结，水中生物得以在底层越冬。</li>
+            <li><strong>盐分的影响：</strong>盐度增加会降低冰点温度，同时降低最大密度对应的温度。标准海水冰点约为-1.9°C。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'modern-seawater',
+        title: '现代海水化学组成',
+        badge: '核心概念',
+        content: `
+          <p>海水主要由<strong>11种常量离子或分子</strong>组成，占总量的99%以上。</p>
+          <div class="highlight-box">
+            <strong>Marcet-Dittmar恒比规律：</strong>海水的大部分常量元素，其含量比值基本上是不变的（不论大洋或深层/表层）。
+          </div>
+          <p>30亿年前与现代海水阳离子比较（%）：</p>
+          <table class="compare-table">
+            <tr><th>年代</th><th>Mg²⁺</th><th>Ca²⁺</th><th>Na⁺</th><th>K⁺</th></tr>
+            <tr><td>30亿年前</td><td>13~24</td><td>23~29</td><td>30~47</td><td>17</td></tr>
+            <tr><td>现代</td><td>10.7</td><td>3.2</td><td>83.1</td><td>3.0</td></tr>
+          </table>
+        `
+      },
+      {
+        id: 'salinity',
+        title: '表层海洋盐度分布与影响因素',
+        badge: '分布规律',
+        content: `
+          <strong>影响因素：</strong>
+          <ul>
+            <li><strong>开阔大洋：</strong>蒸发与降雨的相对平衡（蒸发>降雨 → 高盐度；降雨>蒸发 → 低盐度）</li>
+            <li><strong>沿岸海域：</strong>河流径流与地下水输入 → 降低盐度</li>
+            <li><strong>极地区域：</strong>海冰的形成（排出盐分→增盐）和融化（释放淡水→降盐）</li>
+          </ul>
+          <div class="highlight-box">
+            地中海蒸发远大于降水，盐度增高；秋冬季高盐海水冷却下沉，驱动了地中海溢出流。
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 'core-concepts',
+    icon: '⚙️',
+    title: '海洋化学核心概念与方法',
+    tags: ['箱式模型', '稳态', '停留时间'],
+    summary: '箱式模型（Box Model）和停留时间（Residence Time）是海洋化学定量分析的两大核心工具，配合"时间+空间"两把尺子。',
+    subsections: [
+      {
+        id: 'box-model',
+        title: '箱式模型 (Box Model)',
+        badge: '方法论',
+        content: `
+          <p>将海洋视为一个或多个储库（reservoir），定量分析物质在储库间的输入与输出通量。</p>
+          <div class="highlight-box">
+            <strong>稳态条件 (Steady State)：</strong>溶解物质浓度(M)不随时间变化<br>
+            <span class="formula">dM/dt = Σ(dM/dt)ᵢ = 0</span>
+            源的总和 = 汇的总和
+          </div>
+          <p>箱式模型可以从简单1-Box模型扩展到2层/多层模型，用于分析海洋分层和深层环流的影响。</p>
+        `
+      },
+      {
+        id: 'residence-time',
+        title: '停留时间 (Residence Time, τ)',
+        badge: '核心公式',
+        content: `
+          <p><strong>定义：</strong>某物质在海洋储库中平均停留的时间。</p>
+          <span class="formula">τ = mass / input flux = R / F_in = R / F_out</span>
+          <p>对于一级移除过程：</p>
+          <span class="formula">F_out = λ · R</span>
+          <p>其中λ为一级移除速率常数（t⁻¹），R为总质量。</p>
+          <span class="formula">dR/dt = F_in − λR</span>
+          <p>稳态时 dR/dt = 0：</p>
+          <span class="formula">R / F_in = 1/λ = τ</span>
+          <div class="highlight-box">
+            <strong>应用：</strong>停留时间越长，物质在海洋中的累积潜力越大；短停留时间的元素更容易受输入变化影响。
+          </div>
+        `
+      },
+      {
+        id: 'spacetime-ruler',
+        title: '时空两把尺子',
+        badge: '思维方法',
+        content: `
+          <p>海洋化学强调用<strong>系统观点</strong>看待海洋，核心是<strong>时间 + 空间</strong>两把尺子：</p>
+          <ul>
+            <li><strong>时间尺度：</strong>从秒（化学反应）到千年（深层环流），不同过程有不同的特征时间。</li>
+            <li><strong>空间尺度：</strong>从分子到全球，从表层到万米深海。</li>
+          </ul>
+          <p>需要将不同时空尺度的过程进行耦合分析。</p>
+        `
+      },
+      {
+        id: 'chem-perspective',
+        title: '化学视角的优势',
+        badge: '方法论',
+        content: `
+          <ul>
+            <li><strong>1. 巨大的信息潜力：</strong>93种元素、260种同位素、78种天然放射性同位素、无数化合物。</li>
+            <li><strong>2. 高代表性：</strong>一滴水（约0.05g）含有2.8×10⁻³摩尔或1.7×10²¹个分子，化学测量具有统计学意义。</li>
+            <li><strong>3. 可定量处理：</strong>化学计量、质量平衡、反应速率和程度预测、年龄估算、古温度重建。</li>
+            <li><strong>4. 化学变化指示过程：</strong>整合多个先前事件 —— 这对无法直接观测的深海尤为重要，沉积物保存了过去的环境记录。</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    id: 'air-sea',
+    icon: '💨',
+    title: '海-气界面过程',
+    tags: ['气体交换', '薄膜模型', '沉降'],
+    summary: '海洋与大气在界面上不断进行物质和能量交换，气体交换受薄膜层控制，交换速率取决于风速、温度和浓度梯度。',
+    subsections: [
+      {
+        id: 'film-model',
+        title: '海-气交换薄膜模型',
+        badge: '核心模型',
+        content: `
+          <p><strong>薄膜模型（Broecker & Peng, 1982）：</strong>在空气-海水界面存在一个假想的静止薄膜层（厚度10~60μm），气体分子通过分子扩散穿越该层。</p>
+          <span class="formula">F_A = D_A · d[A]/dz = D_A · ([A(aq)]_top − [A(aq)]_bottom) / z</span>
+          <div class="key-value">
+            <div class="key">z：</div><div>薄膜层厚度，10~60 μm（越厚，交换越慢）</div>
+            <div class="key">D_A：</div><div>分子扩散系数，~1×10⁻⁵ cm²/s（温度越高，分子运动越快）</div>
+            <div class="key">浓度梯度：</div><div>薄膜层顶部和底部的浓度差（梯度越大，扩散越快）</div>
+          </div>
+        `
+      },
+      {
+        id: 'gas-flux',
+        title: '气体交换通量计算',
+        badge: '公式',
+        content: `
+          <span class="formula">F = D/z · (C_sw − C_air)</span>
+          <span class="formula">F = k · (C_sw − C_air)</span>
+          <span class="formula">F = k · K_H · (p_sw − p_air)</span>
+          <p>其中：</p>
+          <ul>
+            <li><strong>k：</strong>气体交换系数（活塞速度），主要通过海表风速估算</li>
+            <li><strong>K_H：</strong>亨利常数</li>
+            <li><strong>p：</strong>气体分压</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>关键控制因素：</strong>风速越大，海表湍流越强，薄膜层越薄，k值越大，气体交换越快。
+          </div>
+        `
+      },
+      {
+        id: 'deposition',
+        title: '大气物质输送：干、湿沉降',
+        badge: '界面过程',
+        content: `
+          <ul>
+            <li><strong>干沉降 (Dry Deposition)：</strong>大气中的气溶胶和颗粒物直接沉降到海面，受重力和湍流扩散控制。</li>
+            <li><strong>湿沉降 (Wet Deposition)：</strong>通过降水（雨、雪）将大气中的溶解物质和颗粒物带入海洋。</li>
+            <li>大气输送是海洋表层微量金属（如Fe）和营养盐（如N）的重要来源，对远洋初级生产力有显著影响。</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    id: 'land-sea',
+    icon: '🏞️',
+    title: '海-陆界面过程',
+    tags: ['河流输入', '地下水', '缺氧'],
+    summary: '陆地向海洋的物质输送主要通过河流和地下水（SGD），河流年输水量8~10×10¹¹ m³，沉积物输送1~5×10¹¹ kg。',
+    subsections: [
+      {
+        id: 'river-input',
+        title: '河流的物质输送',
+        badge: '主要输入',
+        content: `
+          <div class="key-value">
+            <div class="key">Water discharge：</div><div>8~10×10¹¹ m³/yr</div>
+            <div class="key">Sediment delivery：</div><div>1~5×10¹¹ kg/yr</div>
+            <div class="key">DIN（溶解无机氮）：</div><div>8~91×10⁸ kg N/yr</div>
+            <div class="key">P（磷）：</div><div>7×10⁸ kg P/yr</div>
+          </div>
+          <p style="margin-top:10px;">河流输入是海洋中陆源物质的主要来源，长江口、钱塘江口是典型的河口研究区域。</p>
+        `
+      },
+      {
+        id: 'sgd',
+        title: '地下水物质输送 (SGD)',
+        badge: '重要发现',
+        content: `
+          <ul>
+            <li><strong>SGD (Submarine Groundwater Discharge)：</strong>海底地下水排放</li>
+            <li>SGD水通量占比约为<strong>全球水循环的6~10%</strong></li>
+            <li>全球200多个沿海区域研究表明，其中约<strong>60%</strong>的区域SGD输送的营养盐超过了当地河流的贡献（Santos et al., 2021）</li>
+          </ul>
+          <div class="highlight-box">
+            SGD是近海营养盐的重要但长期被低估的来源，对近岸生态系统营养盐收支有显著影响。
+          </div>
+        `
+      },
+      {
+        id: 'coastal-hypoxia',
+        title: '沿岸缺氧与酸化',
+        badge: '环境问题',
+        content: `
+          <strong>夏季底层水体缺氧和酸化的成因：</strong>
+          <ul>
+            <li><strong>水体层化：</strong>夏季表层水温升高，形成温跃层，限制垂直交换。</li>
+            <li><strong>富营养化：</strong>夏季河流径流量增加 → 营养盐输送增加 → 表层初级生产力增加 → 颗粒有机物沉降增加 → 底层有机物分解耗氧增加。</li>
+          </ul>
+          <p>沿岸缺氧（Hypoxia）是全球性的近海环境问题（Diaz 2008），常伴随海洋酸化，形成"双重胁迫"。</p>
+        `
+      }
+    ]
+  },
+  {
+    id: 'biogeochem',
+    icon: '🧬',
+    title: '海洋生物地球化学',
+    tags: ['碳泵', 'Redfield', '生命起源'],
+    summary: '海洋碳泵是控制海洋碳循环和大气CO₂的核心机制，包括生物泵、溶解度泵、碳酸盐反向泵和微生物泵。',
+    subsections: [
+      {
+        id: 'carbon-pumps',
+        title: '海洋碳泵体系',
+        badge: '核心',
+        content: `
+          <p>海洋中有四种主要的碳泵机制，共同调控碳在海洋中的迁移和储存：</p>
+          <table class="compare-table">
+            <tr><th>碳泵类型</th><th>机制</th><th>作用</th></tr>
+            <tr>
+              <td><strong>溶解度泵</strong><br>Solubility Pump</td>
+              <td>CO₂在高纬度冷水区溶解度更高，冷却海水下沉将溶解无机碳带入深海</td>
+              <td>物理驱动，将大气CO₂向深海输送</td>
+            </tr>
+            <tr>
+              <td><strong>生物泵</strong><br>Biological Pump</td>
+              <td>浮游植物光合作用固定CO₂→颗粒有机碳(POC)沉降→深层分解/埋藏</td>
+              <td>生物吸收-垂直输送-分解-埋藏</td>
+            </tr>
+            <tr>
+              <td><strong>碳酸盐反向泵</strong><br>Carbonate Counter Pump</td>
+              <td>Ca²⁺ + 2HCO₃⁻ ⇌ CO₂ + CaCO₃ + H₂O<br>CaCO₃的合成释放CO₂，与生物泵方向相反</td>
+              <td>碳酸钙形成释放CO₂，减少海洋CO₂吸收效率</td>
+            </tr>
+            <tr>
+              <td><strong>微生物泵</strong><br>Microbial Pump</td>
+              <td>微生物将活性有机碳转化为惰性溶解有机碳(RDOC)</td>
+              <td>惰性有机碳的转化和长期储存</td>
+            </tr>
+          </table>
+        `
+      },
+      {
+        id: 'redfield',
+        title: 'Redfield Ratio（生源要素比例）',
+        badge: '经典理论',
+        content: `
+          <p><strong>经典Redfield比值：C:N:P = 106:16:1</strong></p>
+          <p>Redfield提出海水中的营养盐比例由浮游植物的需求控制。浮游植物按此比例吸收C、N、P，死亡后被再矿化时也以相同比例释放回水体。</p>
+          <div class="highlight-box">
+            <strong>光合作用：</strong>106CO₂ + 16NO₃⁻ + HPO₄²⁻ + 122H₂O + 18H⁺ → C₁₀₆H₂₆₃O₁₁₀N₁₆P₁ + 138O₂<br>
+            <strong>呼吸作用：</strong>上述反应的逆过程，消耗O₂释放营养盐。
+          </div>
+          <p><strong>应用：</strong>Redfield Ratio是海洋生物地球化学循环定量分析的基础，可用于计算有机物再矿化量、氧气消耗量等。</p>
+        `
+      },
+      {
+        id: 'non-redfield',
+        title: '非Redfield行为 (Non-Redfield)',
+        badge: '前沿',
+        content: `
+          <p>实际海洋中浮游植物的N:P比并非固定为16:1，而是随环境条件变化：</p>
+          <ul>
+            <li><strong>指数生长期（Bloomer）：</strong>浮游植物增加生长机制的生产，降低N:P比至<strong>~8</strong>，远低于Redfield值16。</li>
+            <li><strong>资源匮乏期（Survivalist）：</strong>合成额外的资源获取机制，导致最优N:P比在<strong>36~45</strong>之间。</li>
+          </ul>
+          <p style="margin-top:10px; font-size:0.825rem;">Reference: Kevin R. Arrigo, 2005</p>
+        `
+      },
+      {
+        id: 'life-origin',
+        title: '生命起源与深海热液',
+        badge: '科学前沿',
+        content: `
+          <ul>
+            <li>深海热液喷口（"黑烟囱"）喷出高温（~350°C）、富含矿物质和还原性物质的流体。</li>
+            <li>热液喷口周围存在以化能合成为基础的独特生态系统，不依赖阳光。</li>
+            <li><strong>生命起源假说：</strong>深海热液环境提供了生命起源所需的化学条件——还原性环境、矿物质催化表面、热梯度、丰富的化学能。</li>
+            <li>1977年加拉帕戈斯裂谷首次发现热液喷口生态系统，改变了人类对生命存在条件的认知。</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    id: 'circulation',
+    icon: '🌪️',
+    title: '海洋环流与混合',
+    tags: ['热盐环流', '中尺度涡', '垂直混合'],
+    summary: '全球热盐环流（Great Ocean Conveyor）由密度差异驱动，深层水形成于极地区域，平均通风时间约1000年。',
+    subsections: [
+      {
+        id: 'thermohaline',
+        title: '全球热盐环流 (Thermohaline Circulation)',
+        badge: '核心',
+        content: `
+          <ul>
+            <li>密度（温度、盐度、压力控制）差异主导了海水垂直混合以及深层水体的运动。</li>
+            <li>深层环流也被称为<strong>"热盐环流"</strong>（Thermohaline Circulation）或<strong>"大洋传送带"</strong>（Great Ocean Conveyor）。</li>
+            <li><strong>深层水形成：</strong>极地区域（低温、高盐的表层水冷却下沉形成深层水。北大西洋深层水NADW、南极底层水AABW等）。</li>
+            <li><strong>垂直环流速度极慢：</strong>平均通风时间（ventilation time）约<strong>1000年</strong>。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'mesoscale-eddy',
+        title: '中尺度涡 (Mesoscale Eddy)',
+        badge: '动力学',
+        content: `
+          <ul>
+            <li>空间尺度约<strong>几十至几百公里</strong>，时间尺度约<strong>几天至几个月</strong>。</li>
+            <li>海洋中无处不在，携带着全球海洋的大部分动能。</li>
+            <li>在海洋的<strong>动能运输、热盐运输、化学物质运输以及营养物质运输</strong>中起到重要作用。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'seasonal-mixing',
+        title: '垂直混合与浮游植物的季节性变化',
+        badge: '生态耦合',
+        content: `
+          <p><strong>核心链式关系：Mixing → Nutrient supply → Biological response</strong></p>
+          <ul>
+            <li><strong>冬季：</strong>强风和冷却导致深层混合，营养盐从深层输送到表层，但光照不足限制浮游植物生长。</li>
+            <li><strong>春季：</strong>光照增强，混合层变浅，浮游植物大量繁殖（春季水华）。</li>
+            <li><strong>夏季：</strong>温跃层形成，营养盐受限，初级生产力下降。</li>
+            <li><strong>秋季：</strong>冷却和风混合增强，营养盐再次输入，可能出现秋季水华。</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    id: 'chem-distributions',
+    icon: '📊',
+    title: '化学参数分布与过程示踪',
+    tags: ['溶解氧', 'OMZ', 'AOU', '营养盐'],
+    summary: '海洋中溶解氧、营养盐等化学参数的空间分布反映了物理混合和生物活动的综合效应，可作为水团运动的示踪剂。',
+    subsections: [
+      {
+        id: 'do-profile',
+        title: '溶解氧垂直分布',
+        badge: '核心',
+        content: `
+          <p><strong>海洋中溶解氧的来源：</strong></p>
+          <ul>
+            <li>1）大气通过海-气界面气体交换进入海洋表层</li>
+            <li>2）真光层中浮游生物光合作用释放氧气</li>
+          </ul>
+          <p><strong>海洋中溶解氧的消耗：</strong></p>
+          <ul>
+            <li>1）有机物的氧化分解（呼吸作用 + 微生物分解）</li>
+            <li>2）无机物的氧化作用</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>关键认知：</strong>All deep water once was at the surface!! 深层水的溶解氧来源于其曾经在海表时与大气平衡获得的氧气。
+          </div>
+          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧含量不断降低，溶解无机碳浓度不断升高 —— "垃圾桶效应" (The Trash Effect)。</p>
+        `
+      },
+      {
+        id: 'omz',
+        title: '溶解氧极小值区 (OMZ)',
+        badge: '关键概念',
+        content: `
+          <p><strong>OMZ (Oxygen Minimum Zone)：</strong>海洋中层（通常100-1200m）出现的溶解氧浓度最低的水层。</p>
+          <table class="compare-table">
+            <tr><th>层位</th><th>过程</th><th>特征</th></tr>
+            <tr><td>透光层</td><td>光合作用、N的固定、有氧过程</td><td>O₂高</td></tr>
+            <tr><td>氧跃层</td><td>呼吸作用、硝化作用</td><td>O₂急剧下降</td></tr>
+            <tr><td>氧极小值区</td><td>厌氧过程</td><td>O₂最低</td></tr>
+          </table>
+          <p>开阔大洋OMZ大多介于<strong>100-1200m</strong>，一般长期存在。北太平洋OMZ尤为显著。</p>
+        `
+      },
+      {
+        id: 'aou',
+        title: '表观耗氧量 (AOU)',
+        badge: '示踪工具',
+        content: `
+          <span class="formula">AOU = DOS − DO</span>
+          <p><strong>定义：</strong>假设水体在海面时与大气平衡达到饱和溶解氧（DOS），下沉后由于有机物分解等消耗氧气，实测溶解氧浓度（DO）与饱和值之差即为AOU。</p>
+          <div class="highlight-box">
+            <strong>AOU的优势：</strong>比DO更易区分海洋物理过程与生物过程的贡献，可结合海洋有机物的元素组成计算运移过程中所消耗的有机物数量。
+          </div>
+          <div class="key-value">
+            <div class="key">现场温度：</div><div>在实际深度测量所得的海水温度</div>
+            <div class="key">位温 (θ)：</div><div>海水微团从任意深度以绝热方式提升到海面时具有的温度——具有保守性，方便追溯水团的源地及其演变</div>
+          </div>
+          <p style="margin-top:8px;"><strong>注意：</strong>深层水体AOU中DOS应该用<strong>位温</strong>进行计算。</p>
+          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧降低，硅酸盐和硝酸盐浓度升高。</p>
+        `
+      }
+    ]
+  },
+  {
+    id: 'summary',
+    icon: '🎯',
+    title: '核心要点总结',
+    tags: ['Take Home Message', '课程总结'],
+    summary: '用系统观点看待海洋，以时间+空间两把尺子度量海洋过程，理解物理水文、生物地球化学和各界面的耦合。',
+    subsections: [
+      {
+        id: 'take-home',
+        title: 'Take Home Message',
+        badge: '总结',
+        content: `
+          <div style="display:grid; gap:12px;">
+            <div class="highlight-box">
+              <strong>🌊 用系统观点看待海洋</strong><br>
+              时间 + 空间两把尺子是海洋化学的基本思维框架
+            </div>
+            <div class="highlight-box">
+              <strong>🏗️ 海洋内部过程</strong>
+              <ul style="margin-top:4px;">
+                <li><strong>物理水文：</strong>表层环流 + 深层热盐循环</li>
+                <li><strong>生物地球化学：</strong>海洋碳泵（溶解度泵、生物泵、碳酸盐反向泵、微生物泵）</li>
+              </ul>
+            </div>
+            <div class="highlight-box">
+              <strong>🌍 地球系统视角</strong>
+              <ul style="margin-top:4px;">
+                <li><strong>箱式模型：</strong>质量平衡 (Mass Balance)</li>
+                <li><strong>界面过程：</strong>海洋-大气、海洋-陆地、海洋-海底</li>
+              </ul>
+            </div>
+            <div class="highlight-box">
+              <strong>⚖️ 化学计量比例</strong><br>
+              Redfield Ratio — C:N:P = 106:16:1 — 海洋生物地球化学循环的定量基础
+            </div>
+          </div>
+        `
+      }
+    ]
+  }
+];
+
+// ===== BUILD NAVIGATION =====
+function buildNav() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = knowledgeData.map(cat => `
+    <div class="nav-category" data-cat="${cat.id}">
+      <div class="nav-cat-header" onclick="toggleCategory(this)">
+        <span class="icon">${cat.icon}</span>
+        <span>${cat.title}</span>
+        <span class="count">(${cat.subsections.length})</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="nav-items">
+        ${cat.subsections.map(sub => `
+          <div class="nav-item" data-target="${sub.id}" onclick="scrollToSection('${sub.id}')">${sub.title}</div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== BUILD CONTENT =====
+function buildContent() {
+  const container = document.getElementById('contentSections');
+  container.innerHTML = knowledgeData.map(cat => `
+    <div class="section" id="sec-${cat.id}">
+      <div class="section-header">
+        <div class="sec-icon">${cat.icon}</div>
+        <div>
+          <h2>${cat.title}</h2>
+          <p style="color:var(--text2);font-size:0.85rem;">${cat.summary}</p>
+        </div>
+      </div>
+      ${cat.subsections.map(sub => `
+        <div class="detail-card" id="detail-${sub.id}">
+          <div class="detail-header" onclick="toggleDetail(this.parentElement)">
+            <span class="expand-icon">▶</span>
+            <h4>${sub.title}</h4>
+            <span class="badge">${sub.badge}</span>
+          </div>
+          <div class="detail-body">
+            <div class="detail-body-inner">${sub.content}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+// ===== TOGGLE FUNCTIONS =====
+function toggleCategory(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+function toggleDetail(card) {
+  card.classList.toggle('open');
+}
+
+function scrollToSection(id) {
+  // Remove all active
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  // Set active
+  document.querySelector(`.nav-item[data-target="${id}"]`)?.classList.add('active');
+  // Scroll to and expand
+  const el = document.getElementById(`detail-${id}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('open');
+  }
+  // On mobile, close sidebar
+  document.querySelector('.sidebar').classList.remove('open');
+}
+
+// ===== SEARCH =====
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const searchInfo = document.getElementById('searchInfo');
+
+  if (!query) {
+    searchInfo.classList.remove('visible');
+    resetAllHighlights();
+    // Show all sections
+    document.querySelectorAll('.section').forEach(s => s.style.display = '');
+    document.querySelectorAll('.detail-card').forEach(c => c.style.display = '');
+    return;
+  }
+
+  let results = [];
+  knowledgeData.forEach(cat => {
+    cat.subsections.forEach(sub => {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = sub.content;
+      const textContent = (sub.title + ' ' + sub.badge + ' ' + (tempDiv.textContent || '')).toLowerCase();
+      if (textContent.includes(query)) {
+        results.push({ catId: cat.id, catTitle: cat.title, subId: sub.id, subTitle: sub.title });
+      }
+    });
+    // Also check category level
+    const catText = (cat.title + ' ' + cat.summary + ' ' + cat.tags.join(' ')).toLowerCase();
+    if (catText.includes(query)) {
+      results.push({ catId: cat.id, catTitle: cat.title, subId: null, subTitle: null, isCat: true });
+    }
+  });
+
+  // Remove duplicates for categories that already have sub-matches
+  const matchedCatIds = new Set(results.filter(r => r.subId).map(r => r.catId));
+  results = results.filter(r => !(r.isCat && matchedCatIds.has(r.catId)));
+
+  searchInfo.classList.add('visible');
+  searchInfo.innerHTML = results.length
+    ? `找到 <strong>${results.length}</strong> 个匹配的知识点：${results.map(r => r.subTitle || r.catTitle).join('、')}`
+    : '未找到匹配的知识点，请尝试其他关键词。';
+
+  // Show/hide sections and cards
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.detail-card').forEach(c => { c.style.display = 'none'; c.classList.remove('open'); });
+
+  results.forEach(r => {
+    const sec = document.getElementById(`sec-${r.catId}`);
+    if (sec) sec.style.display = '';
+    if (r.subId) {
+      const card = document.getElementById(`detail-${r.subId}`);
+      if (card) { card.style.display = ''; card.classList.add('open'); }
+    }
+  });
+
+  if (results.length > 0 && results[0].subId) {
+    scrollToSection(results[0].subId);
+  }
+}
+
+function resetAllHighlights() {
+  // Remove all highlights (if any added dynamically)
+}
+
+// ===== INIT =====
+buildNav();
+buildContent();
+
+// Open first category by default
+document.querySelector('.nav-category')?.classList.add('open');
+
+// Close sidebar on clicking outside (mobile)
+document.addEventListener('click', (e) => {
+  const sidebar = document.querySelector('.sidebar');
+  if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !e.target.classList.contains('mobile-toggle')) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// Keyboard shortcut: Ctrl+K / Cmd+K to focus search
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+console.log('🌊 海洋化学知识外脑已就绪');
+console.log('   - ' + knowledgeData.length + ' 个知识分类');
+console.log('   - ' + knowledgeData.reduce((s, c) => s + c.subsections.length, 0) + ' 个知识点');
+console.log('   - 按 Ctrl+K 快速搜索');
+</script>
+
+</body>
+</html>
