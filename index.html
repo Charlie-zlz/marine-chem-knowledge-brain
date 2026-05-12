@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>海洋化学 · 拓展知识外脑</title>
+<title>海洋科学 · 综合知识外脑</title>
 <style>
   :root {
     --bg: #0a1628;
@@ -503,9 +503,163 @@
       grid-template-columns: 1fr;
     }
   }
+
+    /* ========== 封面页面样式 ========== */
+    #cover-page {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: linear-gradient(180deg, #0a0f1a 0%, #080a0f 50%, #000000 100%);
+        overflow: hidden;
+    }
+    .wave-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    .wave {
+        position: absolute;
+        width: 200%;
+        height: 200px;
+        background: linear-gradient(transparent, rgba(56, 189, 248, 0.08));
+        border-radius: 40% 40% 0 0;
+        animation: wave 12s linear infinite;
+    }
+    .wave:nth-child(1) { bottom: 10%; opacity: 0.6; animation-duration: 15s; }
+    .wave:nth-child(2) { bottom: 8%; opacity: 0.4; animation-duration: 12s; animation-delay: -2s; background: linear-gradient(transparent, rgba(59, 130, 246, 0.06)); }
+    .wave:nth-child(3) { bottom: 6%; opacity: 0.3; animation-duration: 18s; animation-delay: -4s; background: linear-gradient(transparent, rgba(14, 165, 233, 0.05)); }
+    .wave:nth-child(4) { bottom: 4%; opacity: 0.2; animation-duration: 10s; animation-delay: -1s; background: linear-gradient(transparent, rgba(34, 211, 238, 0.04)); }
+    @keyframes wave {
+        0% { transform: translateX(0) translateY(0); }
+        50% { transform: translateX(-25%) translateY(15px); }
+        100% { transform: translateX(-50%) translateY(0); }
+    }
+    .bubble {
+        position: absolute;
+        bottom: -100px;
+        background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.3), rgba(56, 189, 248, 0.05));
+        border-radius: 50%;
+        animation: rise linear infinite;
+        opacity: 0;
+    }
+    @keyframes rise {
+        0% { bottom: -100px; opacity: 0; transform: translateX(0) scale(1); }
+        10% { opacity: 0.6; }
+        50% { opacity: 0.4; transform: translateX(30px) scale(1.1); }
+        90% { opacity: 0.2; }
+        100% { bottom: 100%; opacity: 0; transform: translateX(-20px) scale(0.8); }
+    }
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(56, 189, 248, 0.4);
+        border-radius: 50%;
+        animation: float 8s ease-in-out infinite;
+    }
+    .particle:nth-child(1) { top: 20%; left: 15%; }
+    .particle:nth-child(2) { top: 30%; left: 75%; animation-delay: 1s; }
+    .particle:nth-child(3) { top: 50%; left: 85%; animation-delay: 2s; }
+    .particle:nth-child(4) { top: 60%; left: 20%; animation-delay: 3s; }
+    .particle:nth-child(5) { top: 40%; left: 50%; animation-delay: 4s; }
+    @keyframes float {
+        0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+        50% { transform: translateY(-30px) translateX(15px); opacity: 0.8; }
+    }
+    .cover-content {
+        animation: fadeInUp 1s ease-out forwards;
+        animation-delay: 0.3s;
+        opacity: 0;
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .cover-title {
+        animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes titleGlow {
+        from { text-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 40px rgba(56, 189, 248, 0.1); }
+        to { text-shadow: 0 0 30px rgba(56, 189, 248, 0.5), 0 0 60px rgba(56, 189, 248, 0.2); }
+    }
+    .icon-breathe { animation: breathe 4s ease-in-out infinite; }
+    @keyframes breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+    }
+    .explore-btn {
+        position: relative;
+        background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .explore-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    .explore-btn:hover::before { left: 100%; }
+    .explore-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px -10px rgba(14, 165, 233, 0.5);
+    }
 </style>
 </head>
 <body>
+  <!-- ========== 封面页面 ========== -->
+  <section id="cover-page">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="bubbles">
+      <div class="bubble" style="width:20px;height:20px;left:10%;animation-duration:12s;"></div>
+      <div class="bubble" style="width:35px;height:35px;left:25%;animation-duration:15s;animation-delay:2s;"></div>
+      <div class="bubble" style="width:15px;height:15px;left:40%;animation-duration:10s;animation-delay:4s;"></div>
+      <div class="bubble" style="width:28px;height:28px;left:55%;animation-duration:14s;animation-delay:1s;"></div>
+      <div class="bubble" style="width:22px;height:22px;left:70%;animation-duration:11s;animation-delay:3s;"></div>
+      <div class="bubble" style="width:40px;height:40px;left:85%;animation-duration:16s;animation-delay:5s;"></div>
+    </div>
+    <div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+    <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:0 1rem;">
+      <div class="cover-content" style="text-align:center;max-width:48rem;margin:0 auto;">
+        <div class="icon-breathe" style="margin-bottom:2rem;">
+          <div style="width:6rem;height:6rem;margin:0 auto;border-radius:1.5rem;background:linear-gradient(135deg,#0ea5e9,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;box-shadow:0 25px 50px -12px rgba(14,165,233,0.4);">
+            <span style="font-size:2.5rem;">🌊</span>
+          </div>
+        </div>
+        <h1 class="cover-title" style="font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:#fff;margin-bottom:1rem;letter-spacing:-0.025em;">海洋科学 · 综合知识外脑</h1>
+        <p style="font-size:1.125rem;color:rgba(148,163,184,0.9);margin-bottom:2rem;max-width:36rem;margin-left:auto;margin-right:auto;">一站式海洋科学知识库 —— 涵盖物理海洋、海洋化学、海洋气象、海洋生物、海洋地质五大核心学科</p>
+        <div style="width:6rem;height:1px;margin:0 auto 2rem;background:linear-gradient(90deg,transparent,rgba(56,189,248,0.5),transparent);"></div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-bottom:3rem;">
+          <span style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.875rem;color:#94a3b8;">🔬 物理海洋</span>
+          <span style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.875rem;color:#94a3b8;">🧪 海洋化学</span>
+          <span style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.875rem;color:#94a3b8;">🌤️ 海洋气象</span>
+          <span style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.875rem;color:#94a3b8;">🐟 海洋生物</span>
+          <span style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.875rem;color:#94a3b8;">⛰️ 海洋地质</span>
+        </div>
+        <button onclick="document.getElementById('cover-page').style.display='none'" class="explore-btn" style="padding:1rem 3rem;border-radius:9999px;color:#fff;font-size:1.125rem;font-weight:600;border:none;cursor:pointer;">
+          🌊 开始探索海洋世界
+        </button>
+      </div>
+    </div>
+  </section>
+
 
 <!-- Mobile Toggle -->
 <button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
@@ -526,16 +680,16 @@
   </nav>
 
   <div style="padding: 12px 20px; font-size: 0.7rem; color: var(--text2); border-top: 1px solid var(--border);">
-    基于江宗培老师《海洋化学》课程<br>浙江大学 · 海洋科学基础
+    海洋科学综合知识库<br>浙江大学
   </div>
 </aside>
 
 <!-- ===== MAIN ===== -->
 <main class="main" id="mainContent">
   <div class="main-header">
-    <div class="breadcrumb">拓展知识外脑 / <span>海洋化学</span></div>
-    <h2>海洋化学知识体系</h2>
-    <p>点击左侧分类浏览，或使用搜索查找知识点。点击卡片可展开详细内容。</p>
+    <div class="breadcrumb">拓展知识外脑 / <span>海洋科学</span></div>
+    <h2>海洋科学知识体系</h2>
+    <p>点击左侧分类浏览，或使用搜索查找知识点。涵盖物理海洋、海洋化学、海洋气象、海洋生物、海洋地质五大核心学科。</p>
   </div>
 
   <div class="search-info" id="searchInfo"></div>
@@ -571,12 +725,13 @@
 // ===== KNOWLEDGE DATA =====
 const knowledgeData = [
   {
-    id: 'intro',
-    icon: '📖',
-    title: '海洋化学导论',
-    tags: ['概述', '学科定位', '发展史'],
-    summary: '海洋化学是研究海洋中化学物质及其反应的学科，是物理海洋学、海洋化学、海洋生物、海洋地质四大支柱之一。',
+    id: 'ocean-overview',
+    icon: '🌊',
+    title: '海洋科学总论',
+    tags: ['概述', '学科定位', '发展史', '基本特征'],
+    summary: '海洋覆盖地球71%的表面，是地球气候系统的核心调节器。掌握海洋的基本特征和科学认知历程是理解所有海洋学科的基础。',
     subsections: [
+
       {
         id: 'history',
         title: '海洋化学发展历程',
@@ -640,15 +795,8 @@ const knowledgeData = [
           </ul>
         `
       }
-    ]
-  },
-  {
-    id: 'basics',
-    icon: '🌍',
-    title: '海洋基本特征',
-    tags: ['海水组成', '物理性质', '盐度'],
-    summary: '海洋是一个敞开的复杂体系，最大深度>10000m，压力变化1-1000 atm，与大气、陆地不断进行交换。',
-    subsections: [
+    ,
+
       {
         id: 'sea-vs-ocean',
         title: '海和洋的区别',
@@ -739,15 +887,97 @@ const knowledgeData = [
           </div>
         `
       }
+    
     ]
   },
   {
-    id: 'core-concepts',
-    icon: '⚙️',
-    title: '海洋化学核心概念与方法',
-    tags: ['箱式模型', '稳态', '停留时间'],
-    summary: '箱式模型（Box Model）和停留时间（Residence Time）是海洋化学定量分析的两大核心工具，配合"时间+空间"两把尺子。',
+    id: 'physical-ocean',
+    icon: '🔬',
+    title: '物理海洋学',
+    tags: ['物理海洋', '环流', '波动', '混合'],
+    summary: '物理海洋学研究海水的物理性质、海洋环流、波动和混合过程，是理解海洋动力系统和气候系统的基石。',
     subsections: [
+
+      {
+        id: 'thermohaline',
+        title: '全球热盐环流 (Thermohaline Circulation)',
+        badge: '核心',
+        content: `
+          <ul>
+            <li>密度（温度、盐度、压力控制）差异主导了海水垂直混合以及深层水体的运动。</li>
+            <li>深层环流也被称为<strong>"热盐环流"</strong>（Thermohaline Circulation）或<strong>"大洋传送带"</strong>（Great Ocean Conveyor）。</li>
+            <li><strong>深层水形成：</strong>极地区域（低温、高盐的表层水冷却下沉形成深层水。北大西洋深层水NADW、南极底层水AABW等）。</li>
+            <li><strong>垂直环流速度极慢：</strong>平均通风时间（ventilation time）约<strong>1000年</strong>。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'mesoscale-eddy',
+        title: '中尺度涡 (Mesoscale Eddy)',
+        badge: '动力学',
+        content: `
+          <ul>
+            <li>空间尺度约<strong>几十至几百公里</strong>，时间尺度约<strong>几天至几个月</strong>。</li>
+            <li>海洋中无处不在，携带着全球海洋的大部分动能。</li>
+            <li>在海洋的<strong>动能运输、热盐运输、化学物质运输以及营养物质运输</strong>中起到重要作用。</li>
+          </ul>
+        `
+      },
+      {
+        id: 'seasonal-mixing',
+        title: '垂直混合与浮游植物的季节性变化',
+        badge: '生态耦合',
+        content: `
+          <p><strong>核心链式关系：Mixing → Nutrient supply → Biological response</strong></p>
+          <ul>
+            <li><strong>冬季：</strong>强风和冷却导致深层混合，营养盐从深层输送到表层，但光照不足限制浮游植物生长。</li>
+            <li><strong>春季：</strong>光照增强，混合层变浅，浮游植物大量繁殖（春季水华）。</li>
+            <li><strong>夏季：</strong>温跃层形成，营养盐受限，初级生产力下降。</li>
+            <li><strong>秋季：</strong>冷却和风混合增强，营养盐再次输入，可能出现秋季水华。</li>
+          </ul>
+        `
+      }
+    ,
+      {
+        id: 'c1',
+        title: 'Navier-Stokes 方程',
+        badge: '基础概念',
+        content: `<h2 class="section-header">控制方程</h2><p class="content-p">描述粘性流体运动的核心偏微分方程组</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">基本形式</h3><p class="content-p">ρ(Du/Dt) = -∇p + ρg + μ∇²u</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">物理意义</h3><p class="content-p">• 左端：流体微元的加速度（惯性力）</p><p class="content-p">• 第一项右端：压力梯度力</p><p class="content-p">• 第二项：重力</p><p class="content-p">• 第三项：粘性耗散力</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">应用场景</h3><p class="content-p">大洋环流数值模拟、海洋工程设计、污染物扩散预测</p>`
+      },
+      {
+        id: 'c2',
+        title: 'Ekman 漂流',
+        badge: '核心过程',
+        content: `<h2 class="section-header">风生漂流理论</h2><p class="content-p">风场作用于海面，通过湍流粘滞将动量向下传递，形成与风向成45°偏角的表层流</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">Ekman层特征</h3><p class="content-p">• 深度尺度：Ekman深度 DE = 2κ/|f|</p><p class="content-p">• 漂流速度随深度呈指数衰减</p><p class="content-p">• 流向随深度顺时针旋转（北半球）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">Ekman抽吸</h3><p class="content-p">当风场旋度不为零时，会引起水体垂向运动：</p><p class="content-p">w = (1/ρf)∇×τ</p><p class="content-p">这直接影响海洋上层的水体交换和生物生产力</p>`
+      },
+      {
+        id: 'c3',
+        title: '地转流',
+        badge: '核心过程',
+        content: `<h2 class="section-header">准地转平衡流</h2><p class="content-p">大洋环流的主体形态，由海面坡度产生的压强梯度力与科氏力平衡形成</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">地转关系</h3><p class="content-p">• u = -(g/f)(∂η/∂y)</p><p class="content-p">• v = (g/f)(∂η/∂y)</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">特征</h3><p class="content-p">• 水平尺度大（100km以上）</p><p class="content-p">• 时间尺度长（周以上）</p><p class="content-p">• 流线平行于海面等高线</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">观测验证</h3><p class="content-p">通过CTD站位计算位势高度，可反演地转流场</p>`
+      },
+      {
+        id: 'c4',
+        title: '罗斯贝波',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">行星波动</h2><p class="content-p">由β效应（科氏参数随纬度变化）引起的水平尺度巨大的波动</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">分类</h3><p class="content-p">• 大气遥相关型（WA、WP、EA等）</p><p class="content-p">• 海盆尺度的驻波</p><p class="content-p">• 自由行星波</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">传播特征</h3><p class="content-p">• 相速度向西，群速度向东</p><p class="content-p">• 长波速快，短波速慢</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">气候意义</h3><p class="content-p">罗斯贝波是中高纬度大气变率的主要模态，影响区域气候变化</p>`
+      },
+      {
+        id: 'c5',
+        title: '温盐环流',
+        badge: '核心过程',
+        content: `<h2 class="section-header">大洋热盐环流</h2><p class="content-p">由海水密度差驱动的全球大洋环流系统，被称为\\"海洋传送带\\"</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">驱动机制</h3><p class="content-p">• 热力驱动：海面冷却导致海水下沉</p><p class="content-p">• 盐度驱动：高盐海水密度增大而下沉</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">全球循环路径</h3><p class="content-p">北大西洋 → 深海流 → 印度洋/太平洋 → 上翻 → 表层回流</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">气候调节作用</h3><p class="content-p">• 传输热量：表层将热量从赤道输向两极</p><p class="content-p">• 碳循环：深海存储大量人为CO₂</p><p class="content-p">• 千年尺度变化：D-O旋回 Heinrich事件</p>`
+      }
+    ]
+  },
+  {
+    id: 'marine-chem',
+    icon: '🧪',
+    title: '海洋化学',
+    tags: ['海洋化学', '物质循环', '界面过程', '生物地球化学'],
+    summary: '海洋化学研究海水中化学物质的组成、分布、迁移和转化，关注海-气、海-陆、海-生各界面的化学过程。',
+    subsections: [
+
       {
         id: 'box-model',
         title: '箱式模型 (Box Model)',
@@ -806,15 +1036,8 @@ const knowledgeData = [
           </ul>
         `
       }
-    ]
-  },
-  {
-    id: 'air-sea',
-    icon: '💨',
-    title: '海-气界面过程',
-    tags: ['气体交换', '薄膜模型', '沉降'],
-    summary: '海洋与大气在界面上不断进行物质和能量交换，气体交换受薄膜层控制，交换速率取决于风速、温度和浓度梯度。',
-    subsections: [
+    ,
+
       {
         id: 'film-model',
         title: '海-气交换薄膜模型',
@@ -860,15 +1083,8 @@ const knowledgeData = [
           </ul>
         `
       }
-    ]
-  },
-  {
-    id: 'land-sea',
-    icon: '🏞️',
-    title: '海-陆界面过程',
-    tags: ['河流输入', '地下水', '缺氧'],
-    summary: '陆地向海洋的物质输送主要通过河流和地下水（SGD），河流年输水量8~10×10¹¹ m³，沉积物输送1~5×10¹¹ kg。',
-    subsections: [
+    ,
+
       {
         id: 'river-input',
         title: '河流的物质输送',
@@ -911,15 +1127,175 @@ const knowledgeData = [
           <p>沿岸缺氧（Hypoxia）是全球性的近海环境问题（Diaz 2008），常伴随海洋酸化，形成"双重胁迫"。</p>
         `
       }
+    ,
+
+      {
+        id: 'do-profile',
+        title: '溶解氧垂直分布',
+        badge: '核心',
+        content: `
+          <p><strong>海洋中溶解氧的来源：</strong></p>
+          <ul>
+            <li>1）大气通过海-气界面气体交换进入海洋表层</li>
+            <li>2）真光层中浮游生物光合作用释放氧气</li>
+          </ul>
+          <p><strong>海洋中溶解氧的消耗：</strong></p>
+          <ul>
+            <li>1）有机物的氧化分解（呼吸作用 + 微生物分解）</li>
+            <li>2）无机物的氧化作用</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>关键认知：</strong>All deep water once was at the surface!! 深层水的溶解氧来源于其曾经在海表时与大气平衡获得的氧气。
+          </div>
+          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧含量不断降低，溶解无机碳浓度不断升高 —— "垃圾桶效应" (The Trash Effect)。</p>
+        `
+      },
+      {
+        id: 'omz',
+        title: '溶解氧极小值区 (OMZ)',
+        badge: '关键概念',
+        content: `
+          <p><strong>OMZ (Oxygen Minimum Zone)：</strong>海洋中层（通常100-1200m）出现的溶解氧浓度最低的水层。</p>
+          <table class="compare-table">
+            <tr><th>层位</th><th>过程</th><th>特征</th></tr>
+            <tr><td>透光层</td><td>光合作用、N的固定、有氧过程</td><td>O₂高</td></tr>
+            <tr><td>氧跃层</td><td>呼吸作用、硝化作用</td><td>O₂急剧下降</td></tr>
+            <tr><td>氧极小值区</td><td>厌氧过程</td><td>O₂最低</td></tr>
+          </table>
+          <p>开阔大洋OMZ大多介于<strong>100-1200m</strong>，一般长期存在。北太平洋OMZ尤为显著。</p>
+        `
+      },
+      {
+        id: 'aou',
+        title: '表观耗氧量 (AOU)',
+        badge: '示踪工具',
+        content: `
+          <span class="formula">AOU = DOS − DO</span>
+          <p><strong>定义：</strong>假设水体在海面时与大气平衡达到饱和溶解氧（DOS），下沉后由于有机物分解等消耗氧气，实测溶解氧浓度（DO）与饱和值之差即为AOU。</p>
+          <div class="highlight-box">
+            <strong>AOU的优势：</strong>比DO更易区分海洋物理过程与生物过程的贡献，可结合海洋有机物的元素组成计算运移过程中所消耗的有机物数量。
+          </div>
+          <div class="key-value">
+            <div class="key">现场温度：</div><div>在实际深度测量所得的海水温度</div>
+            <div class="key">位温 (θ)：</div><div>海水微团从任意深度以绝热方式提升到海面时具有的温度——具有保守性，方便追溯水团的源地及其演变</div>
+          </div>
+          <p style="margin-top:8px;"><strong>注意：</strong>深层水体AOU中DOS应该用<strong>位温</strong>进行计算。</p>
+          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧降低，硅酸盐和硝酸盐浓度升高。</p>
+        `
+      }
+    ,
+
+      {
+        id: 'take-home',
+        title: 'Take Home Message',
+        badge: '总结',
+        content: `
+          <div style="display:grid; gap:12px;">
+            <div class="highlight-box">
+              <strong>🌊 用系统观点看待海洋</strong><br>
+              时间 + 空间两把尺子是海洋化学的基本思维框架
+            </div>
+            <div class="highlight-box">
+              <strong>🏗️ 海洋内部过程</strong>
+              <ul style="margin-top:4px;">
+                <li><strong>物理水文：</strong>表层环流 + 深层热盐循环</li>
+                <li><strong>生物地球化学：</strong>海洋碳泵（溶解度泵、生物泵、碳酸盐反向泵、微生物泵）</li>
+              </ul>
+            </div>
+            <div class="highlight-box">
+              <strong>🌍 地球系统视角</strong>
+              <ul style="margin-top:4px;">
+                <li><strong>箱式模型：</strong>质量平衡 (Mass Balance)</li>
+                <li><strong>界面过程：</strong>海洋-大气、海洋-陆地、海洋-海底</li>
+              </ul>
+            </div>
+            <div class="highlight-box">
+              <strong>⚖️ 化学计量比例</strong><br>
+              Redfield Ratio — C:N:P = 106:16:1 — 海洋生物地球化学循环的定量基础
+            </div>
+          </div>
+        `
+      }
+    ,
+      {
+        id: 'c11',
+        title: '海水盐度',
+        badge: '基础概念',
+        content: `<h2 class="section-header">海水盐度定义</h2><p class="content-p">海水中溶解盐类的质量比值，单位g/kg</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">世界大洋平均盐度</h3><p class="content-p">• 表层：33-37 PSU</p><p class="content-p">• 全球平均：≈ 35 PSU</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">主要成分</h3><p class="content-p">• Cl⁻ (55%), Na⁺ (31%) → 构成主要盐度</p><p class="content-p">• SO₄²⁻, Mg²⁺, Ca²⁺, K⁺ 等</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">盐度计算</h3><p class="content-p">Knudsen公式：S‰ = 0.03 + 1.805 × Cl‰</p><p class="content-p">现场盐度（PSU）≈ 实用盐度（PSS-78）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">分布</h3><p class="content-p">• 高盐：蒸发强区域（副热带）</p><p class="content-p">• 低盐：降水强区域（赤道、极区）</p>`
+      },
+      {
+        id: 'c12',
+        title: '溶解氧 (DO)',
+        badge: '基础概念',
+        content: `<h2 class="section-header">溶解氧浓度</h2><p class="content-p">海水中分子态氧的含量，海洋生物生存的关键参数</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">饱和度</h3><p class="content-p">• 表层：接近饱和（~100%）</p><p class="content-p">• 底层：可能过饱和或低氧</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">控制因素</h3><p class="content-p">• 来源：光合作用、大气交换</p><p class="content-p">• 消耗：呼吸作用、有机物分解</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">分布特征</h3><p class="content-p">• 表层混合层：高氧</p><p class="content-p">• 主温跃层：氧最小层（OMZ）</p><p class="content-p">• 深海底：部分海域富氧</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">生态意义</h3><p class="content-p">低氧区（< 2 mg/L）形成\\"死亡区\\"</p>`
+      },
+      {
+        id: 'c13',
+        title: '海洋酸化',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">海洋碳吸收</h2><p class="content-p">海洋吸收大气CO₂导致的pH下降过程</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">化学过程</h3><p class="content-p">CO₂ + H₂O ↔ H₂CO₃ ↔ H⁺ + HCO₃⁻ ↔ 2H⁺ + CO₃²⁻</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">酸化指标</h3><p class="content-p">• 当前pH：8.1（工业革命前8.2）</p><p class="content-p">• 预计2100年：7.8左右</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">生态影响</h3><p class="content-p">• 珊瑚礁白化风险↑</p><p class="content-p">• 贝类幼体钙化率↓</p><p class="content-p">• 某些浮游生物优势种改变</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">碳酸钙饱和度</h3><p class="content-p">• 文石（aragonite）饱和层变浅</p><p class="content-p">• 高纬海域首先受影响</p>`
+      },
+      {
+        id: 'c14',
+        title: '营养盐循环',
+        badge: '核心过程',
+        content: `<h2 class="section-header">生物地球化学循环</h2><p class="content-p">氮、磷、硅等元素在海洋中的转化、迁移和储存</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">主要元素</h3><p class="content-p">• 氮（N）：限制浮游植物生长</p><p class="content-p">• 磷（P）：生命必需元素</p><p class="content-p">• 硅（Si）：硅藻必需</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">循环过程</h3><p class="content-p">• 表层：光合作用吸收（营养盐耗尽）</p><p class="content-p">• 深层：有机物分解再生</p><p class="content-p">• 上涌：营养盐返回表层</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">再生机制</h3><p class="content-p">• 微生物分解</p><p class="content-p">• 浮游动物摄食/排泄</p><p class="content-p">• 颗粒有机碳沉降</p>`
+      },
+      {
+        id: 'c15',
+        title: '海洋微量元素',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">痕量金属元素</h2><p class="content-p">铁、锰、锌、铜等含量极低但对生物过程至关重要的元素</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">铁限制假说</h3><p class="content-p">• HNLC区（高营养盐低叶绿素）</p><p class="content-p">• 铁施肥实验验证（如SOIREE, LOHAFEX）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">主要微量元素</h3><p class="content-p">• Fe：叶绿素合成辅因子</p><p class="content-p">• Zn：碳酸酐酶</p><p class="content-p">• Cu：超氧化物歧化酶</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">来源</h3><p class="content-p">• 陆地输入（沙尘、河流）</p><p class="content-p">• 海底热液喷口</p><p class="content-p">• 大气沉降</p>`
+      }
     ]
   },
   {
-    id: 'biogeochem',
-    icon: '🧬',
-    title: '海洋生物地球化学',
-    tags: ['碳泵', 'Redfield', '生命起源'],
-    summary: '海洋碳泵是控制海洋碳循环和大气CO₂的核心机制，包括生物泵、溶解度泵、碳酸盐反向泵和微生物泵。',
+    id: 'marine-meteo',
+    icon: '🌤️',
+    title: '海洋气象学',
+    tags: ['海洋气象', '海气耦合', 'ENSO', '台风'],
+    summary: '海洋气象学研究海洋与大气之间的相互作用，包括海气通量交换、季风、台风、ENSO等大尺度海气耦合现象。',
     subsections: [
+      {
+        id: 'c6',
+        title: 'ENSO 循环',
+        badge: '核心过程',
+        content: `<h2 class="section-header">厄尔尼诺-南方涛动</h2><p class="content-p">热带太平洋海气耦合系统最具影响力的年际变化信号</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">厄尔尼诺</h3><p class="content-p">• 赤道东太平洋海温异常升高</p><p class="content-p">• 沃克环流减弱</p><p class="content-p">• 三年左右周期</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">拉尼娜</h3><p class="content-p">• 赤道东太平洋海温异常降低</p><p class="content-p">• 沃克环流增强</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">影响</h3><p class="content-p">• 全球气候：暴雨、干旱、台风路径改变</p><p class="content-p">• 中国：暖冬、洪涝</p><p class="content-p">• 渔业：秘鲁鳀鱼资源崩溃</p>`
+      },
+      {
+        id: 'c7',
+        title: 'Walker 环流',
+        badge: '基础概念',
+        content: `<h2 class="section-header">沃克环流</h2><p class="content-p">赤道太平洋东西向的大气三圈环流，是ENSO系统的核心</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">正常状态</h3><p class="content-p">• 西太平洋：上升运动 → 多雨</p><p class="content-p">• 东太平洋：下沉运动 → 干旱</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">厄尔尼诺期间</h3><p class="content-p">• 冷水区收缩，上升运动东移</p><p class="content-p">• 传统沃克环流减弱或消失</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">气候连接</h3><p class="content-p">沃克环流与印度季风、东南信风形成跨海盆耦合</p>`
+      },
+      {
+        id: 'c8',
+        title: '台风动力学',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">热带气旋</h2><p class="content-p">生成于热带洋面的强烈热带气旋，是最具破坏性的海洋天气系统</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">生成条件</h3><p class="content-p">• 海温 ≥ 26.5°C（至少50m深）</p><p class="content-p">• 科氏力足够大（纬度 ≥ 5°）</p><p class="content-p">• 低层辐合、高层辐散</p><p class="content-p">• 弱垂直风切变</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">结构</h3><p class="content-p">• 眼区：下沉气流，晴朗</p><p class="content-p">• 眼墙：最强对流上升</p><p class="content-p">• 外雨带：螺旋对流云带</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">能量来源</h3><p class="content-p">主要来自水汽凝结释放的潜热</p>`
+      },
+      {
+        id: 'c9',
+        title: '海陆风循环',
+        badge: '基础概念',
+        content: `<h2 class="section-header">局地环流</h2><p class="content-p">由海陆热力性质差异引起的周期性风系</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">日变化特征</h3><p class="content-p">• 白天：海风（海洋→陆地）</p><p class="content-p">• 夜间：陆风（陆地→海洋）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">形成机制</h3><p class="content-p">• 白天：陆地升温快于海洋 → 低层气压差 → 海风</p><p class="content-p">• 夜间：陆地降温快于海洋 → 反向气压梯度 → 陆风</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">影响因素</h3><p class="content-p">• 纬度：低纬度更显著</p><p class="content-p">• 季节：夏季强于冬季</p><p class="content-p">• 地形：山谷风叠加</p>`
+      },
+      {
+        id: 'c10',
+        title: 'MJO 振荡',
+        badge: '核心过程',
+        content: `<h2 class="section-header">热带季节内振荡</h2><p class="content-p">沿赤道传播的30-60天周期大气波动</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">传播特征</h3><p class="content-p">• 从印度洋向太平洋传播</p><p class="content-p">• 速度约4-5 m/s</p><p class="content-p">• 东向传播为主</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">结构</h3><p class="content-p">对流耦合：活跃对流相 ↔ 抑制对流相</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">气候影响</h3><p class="content-p">• 季风爆发/撤退</p><p class="content-p">• ITCZ位置</p><p class="content-p">• 台风生成频率</p><p class="content-p">• ENSO事件演变</p>`
+      }
+    ]
+  },
+  {
+    id: 'marine-bio',
+    icon: '🐟',
+    title: '海洋生物学',
+    tags: ['海洋生物', '碳泵', '生态系统', '生物地球化学'],
+    summary: '海洋生物学研究海洋生物的分类、分布、生态功能及其在海洋物质循环中的作用，涵盖从微生物到鲸类的全部生命形式。',
+    subsections: [
+
       {
         id: 'carbon-pumps',
         title: '海洋碳泵体系',
@@ -991,161 +1367,136 @@ const knowledgeData = [
           </ul>
         `
       }
-    ]
-  },
-  {
-    id: 'circulation',
-    icon: '🌪️',
-    title: '海洋环流与混合',
-    tags: ['热盐环流', '中尺度涡', '垂直混合'],
-    summary: '全球热盐环流（Great Ocean Conveyor）由密度差异驱动，深层水形成于极地区域，平均通风时间约1000年。',
-    subsections: [
+    ,
       {
-        id: 'thermohaline',
-        title: '全球热盐环流 (Thermohaline Circulation)',
-        badge: '核心',
-        content: `
-          <ul>
-            <li>密度（温度、盐度、压力控制）差异主导了海水垂直混合以及深层水体的运动。</li>
-            <li>深层环流也被称为<strong>"热盐环流"</strong>（Thermohaline Circulation）或<strong>"大洋传送带"</strong>（Great Ocean Conveyor）。</li>
-            <li><strong>深层水形成：</strong>极地区域（低温、高盐的表层水冷却下沉形成深层水。北大西洋深层水NADW、南极底层水AABW等）。</li>
-            <li><strong>垂直环流速度极慢：</strong>平均通风时间（ventilation time）约<strong>1000年</strong>。</li>
-          </ul>
-        `
+        id: 'c16',
+        title: '初级生产力',
+        badge: '核心过程',
+        content: `<h2 class="section-header">海洋碳固定</h2><p class="content-p">浮游植物通过光合作用将CO₂转化为有机碳的速率</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">全球碳通量</h3><p class="content-p">• 海洋初级生产力：~50 Gt C/年</p><p class="content-p">• 约为陆地的1/2</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">控制因素</h3><p class="content-p">• 光照（真光层深度）</p><p class="content-p">• 营养盐供应</p><p class="content-p">• 温度</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">分布格局[/P]<p class="content-p">• 高产区：沿岸、上升流区、高纬季节性</p><p class="content-p">• 低产区：寡营养盐区（亚环流中心）</p>[H2]测量方法</h3><p class="content-p">¹⁴C示踪法、荧光法、卫星遥感</p>`
       },
       {
-        id: 'mesoscale-eddy',
-        title: '中尺度涡 (Mesoscale Eddy)',
-        badge: '动力学',
-        content: `
-          <ul>
-            <li>空间尺度约<strong>几十至几百公里</strong>，时间尺度约<strong>几天至几个月</strong>。</li>
-            <li>海洋中无处不在，携带着全球海洋的大部分动能。</li>
-            <li>在海洋的<strong>动能运输、热盐运输、化学物质运输以及营养物质运输</strong>中起到重要作用。</li>
-          </ul>
-        `
+        id: 'c17',
+        title: '生物碳泵',
+        badge: '核心过程',
+        content: `<h2 class="section-header">碳向深海的输出</h2><p class="content-p">通过生物过程将表层碳输送到深海并长期封存的机制</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">核心过程</h3><p class="content-p">• 浮游植物固碳 → 颗粒有机碳(POC)</p><p class="content-p">• 浮游动物摄食 → 粪便颗粒沉降</p><p class="content-p">• marine snow（海洋雪）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">效率因素</h3><p class="content-p">• 输出效率：~10-15%</p><p class="content-p">• 碳酸钙泵、硅泵的辅助作用</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">气候意义</h3><p class="content-p">• 深海碳储量约38000 Gt</p><p class="content-p">• 减少大气CO₂约200 ppm</p>`
       },
       {
-        id: 'seasonal-mixing',
-        title: '垂直混合与浮游植物的季节性变化',
-        badge: '生态耦合',
-        content: `
-          <p><strong>核心链式关系：Mixing → Nutrient supply → Biological response</strong></p>
-          <ul>
-            <li><strong>冬季：</strong>强风和冷却导致深层混合，营养盐从深层输送到表层，但光照不足限制浮游植物生长。</li>
-            <li><strong>春季：</strong>光照增强，混合层变浅，浮游植物大量繁殖（春季水华）。</li>
-            <li><strong>夏季：</strong>温跃层形成，营养盐受限，初级生产力下降。</li>
-            <li><strong>秋季：</strong>冷却和风混合增强，营养盐再次输入，可能出现秋季水华。</li>
-          </ul>
-        `
+        id: 'c18',
+        title: '浮游生物',
+        badge: '基础概念',
+        content: `<h2 class="section-header">浮游生物生态</h2><p class="content-p">随水流被动漂流的微小生物，是海洋生态系统的基础</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">分类</h3><p class="content-p">• 浮游植物：自养（原核/真核藻类）</p><p class="content-p">• 浮游动物：异养（桡足类、磷虾等）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">主要类群</h3><p class="content-p">• 硅藻：硅质外壳，贡献约40%海洋初级生产力</p><p class="content-p">• 甲藻：涡鞭毛藻，部分产生毒素</p><p class="content-p">• 蓝藻：固氮作用（如束毛藻）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">生态功能</h3><p class="content-p">• 海洋食物网基础</p><p class="content-p">• 氧气主要生产者（50%）</p><p class="content-p">• 气候调节作用</p>`
+      },
+      {
+        id: 'c19',
+        title: '深海热液生物',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">热液口生态系统</h2><p class="content-p">以化能合成为基础，不依赖阳光的独特生态系统</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">热液类型</h3><p class="content-p">• 黑烟囱：高温（300-400°C）</p><p class="content-p">• 白烟囱：低温（<50°C）</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">化能合成细菌</h3><p class="content-p">利用H₂S、CH₄、H₂等还原物质氧化获得能量</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">典型物种</h3><p class="content-p">• 管虫（ Riftia）：无消化系统，依赖共生菌</p><p class="content-p">• 巨型蛤蚌</p><p class="content-p">• 阿尔文号虾</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">科学意义</h3><p class="content-p">为生命起源研究提供窗口</p>`
+      },
+      {
+        id: 'c20',
+        title: '珊瑚礁生态',
+        badge: '基础概念',
+        content: `<h2 class="section-header">珊瑚礁生态系统</h2><p class="content-p">热带浅海最重要的生态系统之一，单位面积物种多样性最高</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">造礁石珊瑚</h3><p class="content-p">• 与虫黄藻共生</p><p class="content-p">• 提供光合作用产物90%</p><p class="content-p">• 排出废物CO₂供珊瑚钙化</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">关键环境因子</h3><p class="content-p">• 水温：18-29°C</p><p class="content-p">• 盐度：33-36 PSU</p><p class="content-p">• 光照：浅于~70m</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">威胁因素</h3><p class="content-p">• 海水酸化</p><p class="content-p">• 珊瑚白化</p><p class="content-p">• 富营养化</p><p class="content-p">• 过度捕捞</p>`
       }
     ]
   },
   {
-    id: 'chem-distributions',
-    icon: '📊',
-    title: '化学参数分布与过程示踪',
-    tags: ['溶解氧', 'OMZ', 'AOU', '营养盐'],
-    summary: '海洋中溶解氧、营养盐等化学参数的空间分布反映了物理混合和生物活动的综合效应，可作为水团运动的示踪剂。',
+    id: 'marine-geo',
+    icon: '⛰️',
+    title: '海洋地质学',
+    tags: ['海洋地质', '板块构造', '沉积', '海底地貌'],
+    summary: '海洋地质学研究海底地形地貌、构造演化、沉积过程和矿产资源，揭示地球的演化历史和海底的奥秘。',
     subsections: [
       {
-        id: 'do-profile',
-        title: '溶解氧垂直分布',
-        badge: '核心',
-        content: `
-          <p><strong>海洋中溶解氧的来源：</strong></p>
-          <ul>
-            <li>1）大气通过海-气界面气体交换进入海洋表层</li>
-            <li>2）真光层中浮游生物光合作用释放氧气</li>
-          </ul>
-          <p><strong>海洋中溶解氧的消耗：</strong></p>
-          <ul>
-            <li>1）有机物的氧化分解（呼吸作用 + 微生物分解）</li>
-            <li>2）无机物的氧化作用</li>
-          </ul>
-          <div class="highlight-box">
-            <strong>关键认知：</strong>All deep water once was at the surface!! 深层水的溶解氧来源于其曾经在海表时与大气平衡获得的氧气。
-          </div>
-          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧含量不断降低，溶解无机碳浓度不断升高 —— "垃圾桶效应" (The Trash Effect)。</p>
-        `
+        id: 'c21',
+        title: '板块构造论',
+        badge: '基础概念',
+        content: `<h2 class="section-header">地球动力学</h2><p class="content-p">解释地球岩石圈结构与运动的科学理论</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">核心概念</h3><p class="content-p">• 岩石圈板块漂浮于软流圈之上</p><p class="content-p">• 板块边界：汇聚、发散、转换</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">海底扩张</h3><p class="content-p">• 大洋中脊：新生地壳</p><p class="content-p">• 俯冲带：老地壳消亡</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">海洋关系</h3><p class="content-p">• 大洋盆地的形成与演化</p><p class="content-p">• 俯冲带诱发地震与火山</p><p class="content-p">• 海沟-岛弧系统</p>`
       },
       {
-        id: 'omz',
-        title: '溶解氧极小值区 (OMZ)',
-        badge: '关键概念',
-        content: `
-          <p><strong>OMZ (Oxygen Minimum Zone)：</strong>海洋中层（通常100-1200m）出现的溶解氧浓度最低的水层。</p>
-          <table class="compare-table">
-            <tr><th>层位</th><th>过程</th><th>特征</th></tr>
-            <tr><td>透光层</td><td>光合作用、N的固定、有氧过程</td><td>O₂高</td></tr>
-            <tr><td>氧跃层</td><td>呼吸作用、硝化作用</td><td>O₂急剧下降</td></tr>
-            <tr><td>氧极小值区</td><td>厌氧过程</td><td>O₂最低</td></tr>
-          </table>
-          <p>开阔大洋OMZ大多介于<strong>100-1200m</strong>，一般长期存在。北太平洋OMZ尤为显著。</p>
-        `
+        id: 'c22',
+        title: '大陆架地貌',
+        badge: '基础概念',
+        content: `<h2 class="section-header">大陆架</h2><p class="content-p">陆地向海延伸的平缓浅海地带</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">定义标准</h3><p class="content-p">• 水深：通常< 200m</p><p class="content-p">• 坡度：< 0.1°</p><p class="content-p">• 宽度：数km至千余km</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">地形特征[/P]<p class="content-p">• 陆架沉积物：河流输入为主</p><p class="content-p">• 古海岸线/贝壳沙堤</p><p class="content-p">• 海底阶地</p>[H2]资源意义</h3><p class="content-p">• 渔场（大陆架渔场）</p><p class="content-p">• 油气资源主要分布区</p><p class="content-p">• 海砂、磷钙土等矿产</p>`
       },
       {
-        id: 'aou',
-        title: '表观耗氧量 (AOU)',
-        badge: '示踪工具',
-        content: `
-          <span class="formula">AOU = DOS − DO</span>
-          <p><strong>定义：</strong>假设水体在海面时与大气平衡达到饱和溶解氧（DOS），下沉后由于有机物分解等消耗氧气，实测溶解氧浓度（DO）与饱和值之差即为AOU。</p>
-          <div class="highlight-box">
-            <strong>AOU的优势：</strong>比DO更易区分海洋物理过程与生物过程的贡献，可结合海洋有机物的元素组成计算运移过程中所消耗的有机物数量。
-          </div>
-          <div class="key-value">
-            <div class="key">现场温度：</div><div>在实际深度测量所得的海水温度</div>
-            <div class="key">位温 (θ)：</div><div>海水微团从任意深度以绝热方式提升到海面时具有的温度——具有保守性，方便追溯水团的源地及其演变</div>
-          </div>
-          <p style="margin-top:8px;"><strong>注意：</strong>深层水体AOU中DOS应该用<strong>位温</strong>进行计算。</p>
-          <p>沿深层水从北大西洋到北太平洋的运动路径：溶氧降低，硅酸盐和硝酸盐浓度升高。</p>
-        `
+        id: 'c23',
+        title: '深海沉积学',
+        badge: '核心过程',
+        content: `<h2 class="section-header">深海沉积物</h2><p class="content-p">记录地球历史的档案库</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">沉积物类型</h3><p class="content-p">• 陆源沉积：河流、风尘、冰筏</p><p class="content-p">• 生物沉积：碳酸钙、蛋白石</p><p class="content-p">• 自生沉积：铁锰结核</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">沉积速率</h3><p class="content-p">• 近岸：> 10 cm/ka</p><p class="content-p">• 深海：1-10 cm/ka</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">古气候记录</h3><p class="content-p">• 有孔虫氧同位素 → 古温度</p><p class="content-p">• 沉积物颜色 → 古生产力</p><p class="content-p">• 冰芯耦合：轨道周期</p>`
+      },
+      {
+        id: 'c24',
+        title: '海沟与俯冲',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">俯冲带地貌</h2><p class="content-p">地球上最深的凹陷，海洋地壳返回地幔的通道</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">典型海沟</h3><p class="content-p">• 马里亚纳海沟：11,034m</p><p class="content-p">• 汤加海沟</p><p class="content-p">• 日本海沟</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">俯冲过程</h3><p class="content-p">• 洋壳弯曲 → 板片脱水</p><p class="content-p">• 弧前增生楔形成</p><p class="content-p">• 岛弧/陆弧火山作用</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">地质过程</h3><p class="content-p">• 大型逆冲地震（板间）</p><p class="content-p">• 弧后盆地扩张</p><p class="content-p">• 构造剥蚀</p>`
+      },
+      {
+        id: 'c25',
+        title: '浊流作用',
+        badge: '前沿应用',
+        content: `<h2 class="section-header">浊流沉积</h2><p class="content-p">高密度水流沿斜坡快速流动的沉积过程</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">形成机制</h3><p class="content-p">• 触发：地震、滑坡、风暴</p><p class="content-p">• 密度差：沉积物+水混合</p><p class="content-p">• 惯性驱动高速运动</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">沉积特征</h3><p class="content-p">• 递变层理（粒序层理）</p><p class="content-p">• 鲍马序列</p><p class="content-p">• 砂-粉砂-粘土韵律</p><h3 style="color:#38bdf8;font-size:1rem;margin-top:1rem;">地质意义</h3><p class="content-p">• 塑造海底峡谷</p><p class="content-p">• 深海扇形成</p><p class="content-p">• 油气储层</p><p class="content-p">• 海底电缆破坏</p>`
       }
     ]
   },
   {
-    id: 'summary',
-    icon: '🎯',
-    title: '核心要点总结',
-    tags: ['Take Home Message', '课程总结'],
-    summary: '用系统观点看待海洋，以时间+空间两把尺子度量海洋过程，理解物理水文、生物地球化学和各界面的耦合。',
+    id: 'resources',
+    icon: '📡',
+    title: '数据源与工具',
+    tags: ['数据源', '观测', '卫星', '工具'],
+    summary: '海洋科学研究中常用的数据平台和学习工具，涵盖国内外卫星遥感、现场观测、再分析等多源数据获取渠道。',
     subsections: [
       {
-        id: 'take-home',
-        title: 'Take Home Message',
-        badge: '总结',
-        content: `
-          <div style="display:grid; gap:12px;">
-            <div class="highlight-box">
-              <strong>🌊 用系统观点看待海洋</strong><br>
-              时间 + 空间两把尺子是海洋化学的基本思维框架
-            </div>
-            <div class="highlight-box">
-              <strong>🏗️ 海洋内部过程</strong>
-              <ul style="margin-top:4px;">
-                <li><strong>物理水文：</strong>表层环流 + 深层热盐循环</li>
-                <li><strong>生物地球化学：</strong>海洋碳泵（溶解度泵、生物泵、碳酸盐反向泵、微生物泵）</li>
-              </ul>
-            </div>
-            <div class="highlight-box">
-              <strong>🌍 地球系统视角</strong>
-              <ul style="margin-top:4px;">
-                <li><strong>箱式模型：</strong>质量平衡 (Mass Balance)</li>
-                <li><strong>界面过程：</strong>海洋-大气、海洋-陆地、海洋-海底</li>
-              </ul>
-            </div>
-            <div class="highlight-box">
-              <strong>⚖️ 化学计量比例</strong><br>
-              Redfield Ratio — C:N:P = 106:16:1 — 海洋生物地球化学循环的定量基础
-            </div>
-          </div>
-        `
+        id: 'national-ocean-data',
+        title: '国家海洋科学数据中心',
+        badge: '🇨🇳 国内',
+        content: `<p><strong>网址：</strong><a href="https://mds.nmdis.org.cn/" target="_blank">https://mds.nmdis.org.cn/</a></p><p>中国官方海洋数据共享平台，提供水文、气象、生物、化学等多学科数据。</p>`
+      },
+      {
+        id: 'cmems',
+        title: '哥白尼海洋环境监测服务 (CMEMS)',
+        badge: '🌍 国际',
+        content: `<p><strong>网址：</strong><a href="https://marine.copernicus.eu/" target="_blank">https://marine.copernicus.eu/</a></p><p>欧盟海洋监测核心服务，提供全球和区域海洋预报、再分析数据。</p>`
+      },
+      {
+        id: 'noaa-ncei',
+        title: 'NOAA 国家环境信息中心',
+        badge: '🇺🇸 美国',
+        content: `<p><strong>网址：</strong><a href="https://www.ncei.noaa.gov/" target="_blank">https://www.ncei.noaa.gov/</a></p><p>全球最大的环境数据档案库，涵盖海洋、大气、地质等多领域历史数据。</p>`
+      },
+      {
+        id: 'nasa-podaac',
+        title: 'NASA PO.DAAC',
+        badge: '🛰️ 卫星',
+        content: `<p><strong>网址：</strong><a href="https://podaac.jpl.nasa.gov/" target="_blank">https://podaac.jpl.nasa.gov/</a></p><p>NASA物理海洋学数据存档中心，提供海面高度、海表温度、盐度等卫星观测数据。</p>`
+      },
+      {
+        id: 'argo',
+        title: 'Argo 全球海洋观测网',
+        badge: '🤖 浮标',
+        content: `<p><strong>网址：</strong><a href="https://argo.ucsd.edu/" target="_blank">https://argo.ucsd.edu/</a></p><p>全球4000+自动浮标阵列，实时监测0-2000m海洋温盐剖面数据。</p>`
+      },
+      {
+        id: 'nsoas',
+        title: '中国海洋卫星数据服务系统',
+        badge: '🇨🇳 卫星',
+        content: `<p><strong>网址：</strong><a href="https://osdds.nsoas.org.cn/" target="_blank">https://osdds.nsoas.org.cn/</a></p><p>HY系列海洋卫星数据服务平台，提供中国自主海洋遥感数据。</p>`
+      },
+      {
+        id: 'scs-data',
+        title: '南海海洋数据中心',
+        badge: '🌏 区域',
+        content: `<p>中国科学院南海海洋研究所数据中心，聚焦南海及邻近海域的多学科综合观测数据。</p>`
+      },
+      {
+        id: 'goos',
+        title: '全球海洋观测系统 (GOOS)',
+        badge: '🌐 全球',
+        content: `<p><strong>网址：</strong><a href="https://goosocean.org/" target="_blank">https://goosocean.org/</a></p><p>UNESCO/IOC协调的全球海洋观测体系，统筹卫星、浮标、志愿船等多平台观测。</p>`
       }
     ]
   }
 ];
-
 // ===== BUILD NAVIGATION =====
 function buildNav() {
   const nav = document.getElementById('sidebarNav');
@@ -1165,6 +1516,7 @@ function buildNav() {
     </div>
   `).join('');
 }
+
 
 // ===== BUILD CONTENT =====
 function buildContent() {
